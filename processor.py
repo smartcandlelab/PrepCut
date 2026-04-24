@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 from __future__ import annotations
 
 import json
@@ -305,6 +307,7 @@ def _bundle_tool_candidates(name: str) -> list[Path]:
         candidates.extend(
             [
                 executable_path.parent / name,
+                executable_path.parent.parent / "Frameworks" / "vendor" / "ffmpeg" / name,
                 executable_path.parent.parent / "Resources" / "vendor" / "ffmpeg" / name,
             ]
         )

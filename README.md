@@ -1,5 +1,13 @@
 # PrepCut
 
+PrepCut fixes videos that won’t import into Final Cut Pro.
+
+Drop a file → get a working .mov.
+
+- No re-encoding unless needed
+- Fast remux when possible
+- Emergency mode for stubborn files
+
 PrepCut is a minimal macOS desktop app for preparing video files for Final Cut Pro and Logic. It uses ffprobe to inspect each file, then uses ffmpeg to remux compatible files or convert only the streams required by the selected settings.
 
 PrepCut always outputs `.mov` files. By default, outputs are written to:
@@ -7,6 +15,12 @@ PrepCut always outputs `.mov` files. By default, outputs are written to:
 ```text
 ~/Movies/PrepCut
 ```
+
+## License
+
+PrepCut is open source under the GNU General Public License version 3 or later. See `LICENSE`.
+
+PrepCut uses PyQt6 and calls FFmpeg/ffprobe for media processing. FFmpeg and PyQt6 are licensed separately; see `THIRD_PARTY_LICENSES.md`.
 
 ## Requirements
 
@@ -44,11 +58,15 @@ python main.py
 
 FFmpeg and ffprobe are not included in this repository.
 
+Release DMGs may bundle FFmpeg and ffprobe. FFmpeg is licensed separately. See `THIRD_PARTY_LICENSES.md`.
+
 For local development, install FFmpeg with Homebrew:
 
 ```bash
 brew install ffmpeg
 ```
+
+The standard Homebrew FFmpeg build may include GPL options. That is allowed for PrepCut releases because PrepCut itself is GPL-licensed, but release maintainers must still provide the required source and license notices for the exact FFmpeg binaries they distribute.
 
 PrepCut looks for `ffmpeg` and `ffprobe` in this order:
 
@@ -99,33 +117,49 @@ Settings persist across launches.
 
 Do not commit FFmpeg or ffprobe binaries to this repository.
 
-To prepare a release build, place executable binaries at:
+Recommended public release FFmpeg build:
+
+- FFmpeg 7.1.1 from https://ffmpeg.org/releases/
+- configured without `--enable-nonfree`
+- configured with VideoToolbox and AudioToolbox support
+
+This is enough for PrepCut's remuxing, AAC/PCM audio conversion, and ProRes VideoToolbox output without bundling extra codec libraries that PrepCut does not need.
+
+The build used for release binaries should be documented in `LICENSES/FFMPEG_BUILD.md`.
+
+To prepare a release build, make sure `ffmpeg` and `ffprobe` are available on `PATH`, then run:
+
+```bash
+./build_mac.sh
+```
+
+The build script copies those binaries into:
 
 ```text
 ./vendor/ffmpeg/ffmpeg
 ./vendor/ffmpeg/ffprobe
 ```
 
-Then run:
-
-```bash
-./build_mac.sh
-```
-
-The script uses PyInstaller and outputs:
+Then it uses PyInstaller and outputs:
 
 ```text
 dist/PrepCut.app
+dist/PrepCut.dmg
 ```
 
-Release builds may bundle LGPL-compatible FFmpeg and ffprobe binaries. Verify the license of the exact binaries before release.
+The script refuses FFmpeg builds that report `--enable-nonfree`. GPL-enabled FFmpeg builds are allowed because PrepCut is GPL-licensed.
+
+Before publishing a DMG, verify the license terms of the exact FFmpeg and ffprobe binaries bundled in the app.
 
 ## DMG Notes
 
-After building `dist/PrepCut.app`, create a DMG containing:
+The build script creates a DMG containing:
 
 - `PrepCut.app`
 - `README.md`
+- `LICENSE`
+- `THIRD_PARTY_LICENSES.md`
+- `LICENSES/`
 
 ## Troubleshooting
 
