@@ -64,6 +64,7 @@ trap 'rm -rf "$DMG_ROOT"' EXIT
 
 cp -R dist/PrepCut.app "$DMG_ROOT/"
 cp README.md "$DMG_ROOT/"
+cp README.md "$DMG_ROOT/README.txt"
 cp VERSION "$DMG_ROOT/"
 cp LICENSE "$DMG_ROOT/"
 cp THIRD_PARTY_LICENSES.md "$DMG_ROOT/"

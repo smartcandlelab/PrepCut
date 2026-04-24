@@ -1,4 +1,12 @@
-# PrepCut v1.0
+# PrepCut v1.0.1
+
+## macOS Gatekeeper Note
+
+PrepCut v1.0.1 is unsigned. After moving `PrepCut.app` to Applications, if macOS blocks it and you trust the copy you downloaded, run:
+
+```bash
+xattr -dr com.apple.quarantine /Applications/PrepCut.app
+```
 
 PrepCut fixes videos that won’t import into Final Cut Pro.
 
@@ -157,6 +165,7 @@ The build script creates a DMG containing:
 
 - `PrepCut.app`
 - `README.md`
+- `README.txt`
 - `VERSION`
 - `LICENSE`
 - `THIRD_PARTY_LICENSES.md`
