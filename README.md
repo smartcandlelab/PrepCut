@@ -1,4 +1,4 @@
-# PrepCut
+# PrepCut v1.0
 
 PrepCut fixes videos that won’t import into Final Cut Pro.
 
@@ -157,6 +157,7 @@ The build script creates a DMG containing:
 
 - `PrepCut.app`
 - `README.md`
+- `VERSION`
 - `LICENSE`
 - `THIRD_PARTY_LICENSES.md`
 - `LICENSES/`

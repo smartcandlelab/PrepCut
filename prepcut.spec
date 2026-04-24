@@ -6,6 +6,7 @@ from pathlib import Path
 
 block_cipher = None
 project_dir = Path.cwd()
+app_version = (project_dir / "VERSION").read_text(encoding="utf-8").strip()
 
 a = Analysis(
     ["main.py"],
@@ -53,6 +54,8 @@ app = BUNDLE(
     info_plist={
         "CFBundleName": "PrepCut",
         "CFBundleDisplayName": "PrepCut",
+        "CFBundleShortVersionString": app_version,
+        "CFBundleVersion": app_version,
         "NSHighResolutionCapable": True,
         "CFBundleDocumentTypes": [
             {

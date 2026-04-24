@@ -4,6 +4,7 @@ set -euo pipefail
 
 cd "$(dirname "$0")"
 
+APP_VERSION="$(tr -d '[:space:]' < VERSION)"
 FFMPEG_PATH="$(which ffmpeg || true)"
 FFPROBE_PATH="$(which ffprobe || true)"
 
@@ -63,16 +64,17 @@ trap 'rm -rf "$DMG_ROOT"' EXIT
 
 cp -R dist/PrepCut.app "$DMG_ROOT/"
 cp README.md "$DMG_ROOT/"
+cp VERSION "$DMG_ROOT/"
 cp LICENSE "$DMG_ROOT/"
 cp THIRD_PARTY_LICENSES.md "$DMG_ROOT/"
 cp -R LICENSES "$DMG_ROOT/"
 
 rm -f dist/PrepCut.dmg
 hdiutil create \
-  -volname "PrepCut" \
+  -volname "PrepCut ${APP_VERSION}" \
   -srcfolder "$DMG_ROOT" \
   -ov \
   -format UDZO \
   dist/PrepCut.dmg
 
-echo "Built dist/PrepCut.dmg"
+echo "Built dist/PrepCut.dmg for PrepCut v${APP_VERSION}"
